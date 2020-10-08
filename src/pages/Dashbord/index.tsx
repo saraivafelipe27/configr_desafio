@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { Title } from './styles'
+
 const Dashboard: React.FC = () => {
-  return <h1>Hello flp</h1>;
+  return <Title>Repositories</Title>;
 };
 
 export default Dashboard;
