@@ -1,72 +1,117 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 
 import api from '../../services/api';
 
-import logoReact from '../../assets/logoreact.png';
+// import logoReact from '../../assets/logoreact.png';
+import logoConfigr from '../../assets/logo_configr.png';
 
-import { Title, RepositoryInfo, Issues } from './styles';
+import { Title, RepositoryInfo, Issues, Pages } from './styles';
 
 
-const Dashboard: React.FC = () => {
+interface Repository {
+  full_name: string;
+  description: string;
+  stargazers_count: number;
+  open_issues: number;
+  state_closed: number;
+  owner: {
+    login: string;
+    avatar_url: string;
+  }
+}
+
+interface Issue {
+  id: number;
+  page: number;
+  number: number;
+  title: string;
+  html_url: string;
+  state_open: string;
+  state_closed: string;
+  user: {
+    login: string;
+  }
+}
+
+const Repository: React.FC = () => {
+  const [repository, setRepository] = useState<Repository | null>(null);
+  const [issues, setIssues] = useState<Issue[]>([]);
 
 
   useEffect(() => {
     api.get(`/repos/facebook/react`).then(response => {
-      console.log(response.data);
+      setRepository(response.data);
+
     });
 
     api.get(`/repos/facebook/react/issues`).then(response => {
-      console.log(response.data);
+      setIssues(response.data);
     });
   }, []);
+
+
 
   return (
     <>
 
       <Title>
-        <img src={logoReact} alt="Issues React" width='80px' />
+        <img src={logoConfigr} alt="Issues React" width='200px' />
         <h1>Listagem de issues do React</h1>
       </Title>
 
-      <RepositoryInfo>
+     { repository && (
+        <RepositoryInfo>
         <header>
-          <img src="https://avatars3.githubusercontent.com/u/69631?v=4" alt="React"/>
+          <img src={repository.owner.avatar_url} alt="React"/>
           <div>
-            <strong>facebook/React</strong>
-            <p>descrição repositório</p>
+            <strong>{repository.full_name}</strong>
+            <p>{repository.description}</p>
           </div>
         </header>
         <ul>
             <li>
-              <strong>1808</strong>
-              <span>Stars</span>
+              <strong>{repository.open_issues}</strong>
+              <span>Issues abertas</span>
             </li>
             <li>
-              <strong>48</strong>
-              <span>forks</span>
+              <strong>{repository.state_closed}</strong>
+              <span>Issues fechadas</span>
             </li>
             <li>
               <strong>67</strong>
-              <span>issues abertas</span>
+              <span>Labels</span>
+            </li>
+            <li>
+              <strong>{repository.stargazers_count}</strong>
+              <span>Todas issues</span>
             </li>
           </ul>
       </RepositoryInfo>
+     )}
 
       <Issues>
-        <Link to="testestes">
+        {issues.map(issue => (
+          <a key={issue.id} href={issue.html_url} target="black" >
           <div>
-            <strong>testestes</strong>
-            <p>teste</p>
+            <strong>{issue.title}</strong>
+            <p>{issue.user.login}</p>
+            <p>{issue.number}</p>
           </div>
 
-          <FiChevronRight size ={20}/>
-        </Link>
+           <FiChevronRight size ={20}/>
+         </a>
+        ))}
 
       </Issues>
+
+      <Pages>
+          <button>Anterior</button>
+          <button>Próxima</button>
+      </Pages>
     </>
   );
 };
 
-export default Dashboard;
+export default Repository;

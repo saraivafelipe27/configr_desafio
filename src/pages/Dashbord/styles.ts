@@ -120,3 +120,25 @@ export const Issues = styled.div`
   }
 
 `;
+
+export const Pages = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.6;
+
+    }
+  }
+
+`;
