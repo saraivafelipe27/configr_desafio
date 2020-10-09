@@ -9,8 +9,6 @@ import logoConfigr from '../../assets/logo_configr.png';
 
 import { Issues,  Pagination } from './styles';
 
-
-
 interface Issue {
   id: number;
   page: number;
@@ -24,9 +22,6 @@ interface Issue {
   }
 }
 
-
-
-
 const Home: React.FC = () => {
   const [issues, setIssues] = useState<Issue[]>([]);
 
@@ -37,8 +32,6 @@ const Home: React.FC = () => {
     });
 
   }, []);
-
-
 
   return (
     <>

@@ -21,9 +21,6 @@ interface IssueClosed {
   }
 }
 
-
-
-
 const IssuesC: React.FC = () => {
   const [issuesClosed, setIssuesClosed] = useState<IssueClosed[]>([]);
 
@@ -40,8 +37,6 @@ const IssuesC: React.FC = () => {
 
   return (
     <>
-
-
       <IssuesClosed>
         {issuesClosed.map(issueClosed => (
           <a key={issueClosed.id} href={issueClosed.html_url} target="black" >
@@ -56,7 +51,6 @@ const IssuesC: React.FC = () => {
         ))}
       </IssuesClosed>
 
-
       <Pagination>
         {/* {issues.map( => (
           <p>{issue.id}</p>
@@ -64,7 +58,6 @@ const IssuesC: React.FC = () => {
         ))} */}
 
       </Pagination>
-
     </>
   );
 };
