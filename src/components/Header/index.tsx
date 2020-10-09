@@ -7,7 +7,7 @@ import api from '../../services/api';
 // import logoReact from '../../assets/logoreact.png';
 import logoConfigr from '../../assets/logo_configr.png';
 
-import { Title, RepositoryInfo, Issues, Pages } from './styles';
+import { Title, RepositoryInfo, Pagination } from './styles';
 
 
 interface Repository {
@@ -22,33 +22,18 @@ interface Repository {
   }
 }
 
-interface Issue {
-  id: number;
-  page: number;
-  number: number;
-  title: string;
-  html_url: string;
-  state_open: string;
-  state_closed: string;
-  user: {
-    login: string;
-  }
-}
 
-const Repository: React.FC = () => {
+
+
+const Header: React.FC = () => {
   const [repository, setRepository] = useState<Repository | null>(null);
-  const [issues, setIssues] = useState<Issue[]>([]);
 
 
   useEffect(() => {
     api.get(`/repos/facebook/react`).then(response => {
       setRepository(response.data);
-
     });
 
-    api.get(`/repos/facebook/react/issues`).then(response => {
-      setIssues(response.data);
-    });
   }, []);
 
 
@@ -72,46 +57,34 @@ const Repository: React.FC = () => {
         </header>
         <ul>
             <li>
-              <strong>{repository.open_issues}</strong>
-              <span>Issues abertas</span>
+            <Link to="/">Issues Open</Link>
+              <span>Problemas abertos</span>
             </li>
             <li>
-              <strong>{repository.state_closed}</strong>
-              <span>Issues fechadas</span>
+            <Link to="/IssuesC">Issues Closed</Link>
+              <span>Problemas fechados</span>
             </li>
             <li>
               <strong>67</strong>
               <span>Labels</span>
             </li>
-            <li>
-              <strong>{repository.stargazers_count}</strong>
-              <span>Todas issues</span>
-            </li>
           </ul>
       </RepositoryInfo>
      )}
 
-      <Issues>
-        {issues.map(issue => (
-          <a key={issue.id} href={issue.html_url} target="black" >
-          <div>
-            <strong>{issue.title}</strong>
-            <p>{issue.user.login}</p>
-            <p>{issue.number}</p>
-          </div>
 
-           <FiChevronRight size ={20}/>
-         </a>
-        ))}
 
-      </Issues>
 
-      <Pages>
-          <button>Anterior</button>
-          <button>Próxima</button>
-      </Pages>
+      <Pagination>
+        {/* {issues.map( => (
+          <p>{issue.id}</p>
+
+        ))} */}
+
+      </Pagination>
+
     </>
   );
 };
 
-export default Repository;
+export default Header;
