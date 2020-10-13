@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiChevronRight } from 'react-icons/fi';
 
 
 import api from '../../services/api';
